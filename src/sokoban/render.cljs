@@ -19,16 +19,15 @@
     (q/background 0)
     (q/frame-rate 30))
 
-(defn draw-cell [x y cell]
-    (let [{:keys [color chr]} (get characters cell)]
+(defn draw-cell [cell]
+    (let [{:keys [coords entity]} cell
+          {:keys [color chr]} (get characters entity)
+          [x y] coords]
         (q/fill color)
         (q/text chr (* (inc x) cell-width) (* (inc y) cell-height))))
 
-(defn draw-row [y row]
-    (doall (map-indexed #(draw-cell %1 y %2) row)))
-
 (defn draw-screen [state]
-    (doall (map-indexed #(draw-row %1 %2) state)))
+    (doall (map draw-cell state)))
 
 (defn draw []
     (q/background 0)
