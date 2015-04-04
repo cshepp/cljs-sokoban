@@ -1,6 +1,5 @@
 (ns sokoban.core
-    (:require [quil.core :as q :include-macros true]
-              [cljs.core.async :as async :refer [<! >! chan]]
+    (:require [cljs.core.async :as async :refer [<! >! chan]]
               [sokoban.render :as r]
               [sokoban.map :as m])
     (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
