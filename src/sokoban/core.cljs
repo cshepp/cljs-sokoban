@@ -65,12 +65,21 @@
               [[:b :g]] (move-player k (move-box k state))
               [[:g  _]] (move-player k state)
               [[ _  _]] state)]
-      (do
-        (println (prn-str s))
-        s))))
+      s)))
 
-(defn win? [state]
-  state)
+(defn win? [a b]
+  (= a b))
+
+(defn check-win [state]
+  (let [{:keys [entities tiles]} state
+        b (:boxes entities)
+        g (vec (keep-indexed #(if (= :g %2) %1) tiles))
+        w (win? b g)]
+    (assoc state :win w)))
+
+(defn log [x]
+  (println x)
+  x)
 
 (defn on-input [input-chan render-chan]
   (go-loop []
@@ -78,7 +87,8 @@
       (go
         (->> @state
           (update v)
-          (win?)
+          (check-win)
+          (log)
           (reset! state)
           (>! render-chan))))
     (recur)))

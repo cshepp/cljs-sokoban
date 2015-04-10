@@ -40,4 +40,5 @@
 (defn load-level [level]
   {:tiles (load-tiles level)
    :entities (load-entities level)
-   :width (count (first level))})
+   :width (count (first level))
+   :win false})
