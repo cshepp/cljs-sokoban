@@ -12,7 +12,7 @@
 (def characters {:w {:color [150]     :chr \#}
                  :p {:color [255 0 0] :chr \@}
                  :b {:color [200]     :chr \$}
-                 :g {:color [0 255 0] :chr \0}
+                 :g {:color [0 255 0] :chr \+}
                  :n {:color [50]      :chr ""}})
 
 (defn setup []

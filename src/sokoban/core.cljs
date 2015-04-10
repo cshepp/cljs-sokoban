@@ -41,6 +41,15 @@
                              (nth t %1))
                       b))))
 
+(defn move-box [k state]
+  (let [{:keys [tiles width entities]} state
+        p (first (:player entities))
+        e (:boxes entities)
+        f (key->func k)
+        n (first (get-two f p width))
+        i (.indexOf (clj->js e) (clj->js n))]
+    (update-in state [:entities :boxes i] f width)))
+
 (defn move-player [k state]
   (let [{:keys [entities width]} state
         p (first (:player entities))
@@ -52,13 +61,16 @@
     (let [n (key->neighbors k state)
           s (match [n]
               [[:n  _]] (move-player k state)
-              [[:b :n]] state
-              [[:b :g]] state
+              [[:b :n]] (move-player k (move-box k state))
+              [[:b :g]] (move-player k (move-box k state))
               [[:g  _]] (move-player k state)
               [[ _  _]] state)]
       (do
         (println (prn-str s))
         s))))
+
+(defn win? [state]
+  state)
 
 (defn on-input [input-chan render-chan]
   (go-loop []
@@ -66,6 +78,7 @@
       (go
         (->> @state
           (update v)
+          (win?)
           (reset! state)
           (>! render-chan))))
     (recur)))
