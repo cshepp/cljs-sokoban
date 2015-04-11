@@ -6,13 +6,13 @@
 
 (def state       (atom {}))
 (def input-chan  (atom (chan)))
-(def cell-height (int  18))
-(def cell-width  (int  18))
+(def cell-height (int  15))
+(def cell-width  (int  11))
 
 (def characters {:w {:color [150]     :chr \#}
                  :p {:color [255 0 0] :chr \@}
                  :b {:color [200]     :chr \$}
-                 :g {:color [0 255 0] :chr \+}
+                 :g {:color [0 255 0] :chr \•}
                  :n {:color [50]      :chr ""}})
 
 (defn setup []
@@ -46,14 +46,23 @@
   (doall (map #(draw-player % width) (:player entities)))
   (doall (map #(draw-box % width) (:boxes entities))))
 
+(defn draw-win []
+  (q/fill 255)
+  (q/text "YOU WIN!" 20 20))
+
 (defn draw []
-    (q/background 0)
-    (draw-screen @state))
+  (q/background 0)
+  (let [s @state
+        w (:win s)]
+    (if w
+      (draw-win)
+      (draw-screen s))))
 
 (defn on-key-typed []
   (let [k (q/key-as-keyword)]
-      (go
-        (>! @input-chan k))))
+    (println k)
+    (go
+      (>! @input-chan k))))
 
 (defn init [ch]
   (reset! input-chan ch)
