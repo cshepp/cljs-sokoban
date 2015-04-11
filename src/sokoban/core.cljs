@@ -8,12 +8,18 @@
 (enable-console-print!)
 
 (def level [[:w :w :w :w :w :w :w]
-            [:w :p :n :n :n :n :w]
-            [:w :n :n :b :g :n :w]
-            [:w :n :n :b :g :n :w]
+            [:w :p :w :n :n :n :w]
+            [:w :n :n :b :n :g :w]
+            [:w :w :n :b :g :n :w]
+            [:w :n :n :n :n :n :w]
             [:w :w :w :w :w :w :w]])
 
-(def state (atom (m/load-level level)))
+#_(def level 
+  (vec (take 19
+    (repeat (vec (take 70 (repeat :w)))
+  ))))
+
+(def state (atom {}))
 
 (defn has-entity [i]
   (>= i 0))
@@ -65,28 +71,49 @@
               [[:b :g]] (move-player k (move-box k state))
               [[:g  _]] (move-player k state)
               [[ _  _]] state)]
-      (do
-        (println (prn-str s))
-        s))))
+      s)))
 
-(defn win? [state]
-  state)
+(defn win? [a b]
+  (= (sort a) (sort b)))
+
+(defn check-win [state]
+  (let [{:keys [entities tiles]} state
+        b (:boxes entities)
+        g (vec (keep-indexed #(if (= :g %2) %1) tiles))
+        w (win? b g)]
+    (assoc state :win w)))
+
+(defn log [x]
+  (println x)
+  x)
 
 (defn on-input [input-chan render-chan]
   (go-loop []
     (let [v (<! input-chan)]
       (go
+        (if (= v :r)
+          (start-level level))
         (->> @state
           (update v)
-          (win?)
+          (check-win)
+          (log)
           (reset! state)
           (>! render-chan))))
     (recur)))
 
-(let [render-chan (chan)
-      input-chan  (chan)]
+;; start a given level (can call more than once)
+(defn start-level [level]
+  (reset! state (m/load-level level)))
+
+;; initialize game (call once!)
+(defn start-game [level]
+  (let [render-chan (chan)
+        input-chan  (chan)]
     (r/update render-chan)
     (on-input input-chan render-chan)
     (r/init input-chan)
+    (start-level level)
     (go
-        (>! render-chan @state)))
+      (>! render-chan @state))))
+
+(start-game level)
