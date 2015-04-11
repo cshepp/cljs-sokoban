@@ -60,7 +60,6 @@
 
 (defn on-key-typed []
   (let [k (q/key-as-keyword)]
-    (println k)
     (go
       (>! @input-chan k))))
 
