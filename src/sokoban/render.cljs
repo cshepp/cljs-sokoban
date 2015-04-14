@@ -37,9 +37,7 @@
           {:keys [color chr]} (get characters entity)
           [x y] coords]
         (q/fill (apply q/color color))
-        (q/text chr (grid->world x :x w h) (grid->world y :y w h))
-        ;;(q/rect (grid->world x :x w h) (grid->world y :y w h) cell-size cell-size)
-        ))
+        (q/text chr (grid->world x :x w h) (grid->world y :y w h))))
 
 (defn draw-entity [e i w h]
   (let [coords (m/index->coords i w)]

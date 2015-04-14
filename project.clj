@@ -4,7 +4,8 @@
                    [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                    [org.clojure/core.match "0.3.0-alpha4"]
                    [quil "2.2.5"]]
-    :plugins [[lein-cljsbuild "1.0.5"]]
+    :plugins [[lein-cljsbuild "1.0.5"]
+              [lein-kibit "0.0.8"]]
     :cljsbuild {:builds
                 {:min {:source-paths ["src"]
                        :compiler {:output-to "out/main.js"}}}})

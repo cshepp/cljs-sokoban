@@ -7,13 +7,6 @@
 
 (enable-console-print!)
 
-#_(def level [[:w :w :w :w :w :w :w]
-            [:w :p :w :n :n :n :w]
-            [:w :n :n :b :n :g :w]
-            [:w :w :n :b :g :n :w]
-            [:w :n :n :n :n :n :w]
-            [:w :w :w :w :w :w :w]])
-
 (def level [[:w :w :w :w :w :w :w :w]
             [:w :n :n :n :w :n :n :w]
             [:w :n :w :n :w :b :g :w]
@@ -22,23 +15,6 @@
             [:w :n :n :n :w :n :n :w]
             [:w :w :w :w :w :p :n :w]
             [:n :n :n :n :w :w :w :w]])
-
-#_(def level [[:n :n :n :n :w :w :w :w :w :n :n :n :n :n :n :n]
-            [:n :n :n :n :w :n :n :n :w :n :n :n :n :n :n :n]
-            [:n :n :n :n :w :b :n :n :w :n :n :n :n :n :n :n]
-            [:n :n :w :w :w :n :n :b :w :w :n :n :n :n :n :n]
-            [:n :n :w :n :n :b :n :b :n :w :n :n :n :n :n :n]
-            [:w :w :w :n :w :n :w :w :n :w :w :w :w :w :w :w]
-            [:w :n :n :n :w :n :w :w :n :w :w :n :n :g :g :w]
-            [:w :n :b :n :n :b :n :n :n :n :p :n :n :g :g :w]
-            [:w :w :w :w :w :n :w :w :w :n :w :n :n :g :g :w]
-            [:n :n :n :n :w :n :n :n :n :n :w :w :w :w :w :w]
-            [:n :n :n :n :w :w :w :w :w :w :w :n :n :n :n :n]])
-
-#_(def level 
-  (vec (take 19
-    (repeat (vec (take 70 (repeat :w)))
-  ))))
 
 (def state (atom {}))
 
