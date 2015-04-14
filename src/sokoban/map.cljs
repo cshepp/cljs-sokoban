@@ -41,4 +41,5 @@
   {:tiles (load-tiles level)
    :entities (load-entities level)
    :width (count (first level))
+   :height (count level)
    :win false})
